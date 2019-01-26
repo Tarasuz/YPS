@@ -8,6 +8,7 @@ import { State } from "../../models/state/State";
 
 interface Props {
   modalType: string;
+  animationState: string;
 }
 
 class DashboardModal extends React.Component<Props, {}> {

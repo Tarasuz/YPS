@@ -14,62 +14,91 @@ import { Dispatch } from "redux";
 
 interface P {
   sideBar: boolean;
+  animationState: string;
   routines: Routine[];
-  toggleSidebar: () => void;
+  closeSidebar: () => void;
   dispatch: Dispatch<any>;
 }
 
-class DashboardSidebar extends React.Component<P, any> {
+interface S {
+  currentSideBarPosition: number;
+  touchList: any;
+}
+
+class DashboardSidebar extends React.Component<P, S> {
+  public state = {
+    currentSideBarPosition: 0,
+    touchList: []
+  };
+
   public componentDidMount() {
     this.props.dispatch(fetchRoutinesIfNeeded());
   }
 
-  public initialHash() {
-    "use strict";
-    window.location.href = "#";
-  }
+  public handleTouch = (e: any) => {
+    const x = e.changedTouches[0].clientX;
+    const total: any = e.target.clientWidth;
+    const position = x - total;
+    this.setState({
+      touchList: [...this.state.touchList, e.changedTouches[0].clientX]
+    });
 
-  // public handleTouch = (e: any) => {
-  //   const x = e.changedTouches[0].clientX;
-  //   const total: any = e.target.clientWidth;
-  //   const position = x - total;
-  //   console.log(total, x, position, this);
-  //   if (position < 0) {
-  //     e.target.style.left = 2 * (x - total) + "px";
-  //     if (position < -200) {
-  //       this.props.toggleSidebar();
-  //     }
-  //   } else if (position >= 0) {
-  //     e.target.style.left = total + "px";
-  //   }
-  // };
-  // public handleTouchEnd = (e: any) => {
-  //   const x = e.changedTouches[0].clientX;
-  //   const total = e.target.clientWidth;
-  //   const position = x - total;
-  //   e.target.style.left = "";
-  //   if (position <= -total * 0.5) {
-  //     this.props.toggleSidebar();
-  //   }
-  // };
+    if (this.state.touchList[0] < 80 || this.state.touchList.length === 0) {
+      return;
+    }
+    if (position >= 0) {
+      this.setState({
+        currentSideBarPosition: 0
+      });
+    } else if (position < 0) {
+      this.setState({
+        currentSideBarPosition: position
+      });
+    }
+  };
+  public handleTouchEnd = (e: any) => {
+    const touchStartPosition = this.state.touchList[0];
+    const touchEndPosition = this.state.touchList[
+      this.state.touchList.length - 1
+    ];
+    if (
+      touchEndPosition - touchStartPosition > -80 ||
+      isNaN(touchEndPosition - touchStartPosition)
+    ) {
+      this.setState({
+        currentSideBarPosition: 0,
+        touchList: []
+      });
+    } else {
+      this.props.closeSidebar();
+    }
+  };
 
   public render() {
     return (
       <div>
         <Wrapper
-          // onTouchStart={this.handleTouch}
-          // onTouchMove={this.handleTouch}
+          onTouchMove={this.handleTouch}
+          onTouchEnd={this.handleTouchEnd}
+          animationState={this.props.animationState}
+          currentSideBarPosition={this.state.currentSideBarPosition}
           sideBar={this.props.sideBar}
         >
-          <ContentWrapper sideBar={this.props.sideBar}>
+          <ContentWrapper
+            animationState={this.props.animationState}
+            sideBar={this.props.sideBar}
+            currentSideBarPosition={this.state.currentSideBarPosition}
+          >
             <AddRoutineForm />
             <hr />
             <RoutineList routines={this.props.routines} />
           </ContentWrapper>
         </Wrapper>
         <SidebarOverlay
-          onClick={this.props.toggleSidebar}
+          onClick={this.props.closeSidebar}
           sideBar={this.props.sideBar}
+          animationState={this.props.animationState}
+          currentSideBarPosition={this.state.currentSideBarPosition}
         />
       </div>
     );

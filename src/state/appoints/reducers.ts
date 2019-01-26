@@ -12,7 +12,6 @@ export const appoints = (
 ) => {
   switch (action.type) {
     case appointsTypes.ADD_APPOINT:
-      console.log(action.appoint);
       return {
         ...state,
         items: [

@@ -106,9 +106,11 @@ const receiveRoutines: ActionCreator<ReceiveRoutines> = (
 ) => {
   return {
     type: routineTypes.RECEIVE_ROUTINES,
-    routines: Object.keys(routines).map(routineId => {
-      return { ...routines[routineId], id: routineId };
-    })
+    routines: routines
+      ? Object.keys(routines).map(routineId => {
+          return { ...routines[routineId], id: routineId };
+        })
+      : []
   };
 };
 

@@ -10,8 +10,10 @@ import { uiTypes } from "./actions";
 
 const sideBar = (state = false, action: ToggleSidebarAction) => {
   switch (action.type) {
-    case uiTypes.TOGGLE_SIDEBAR:
-      return !state;
+    case uiTypes.OPEN_SIDEBAR:
+      return true;
+    case uiTypes.CLOSE_SIDEBAR:
+      return false;
     default:
       return state;
   }

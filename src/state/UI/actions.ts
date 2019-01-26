@@ -2,14 +2,21 @@ import { UiTypes } from "../../models/state/UI/actions";
 import { ModalContent } from "../../models/state/State";
 
 export const uiTypes: UiTypes = {
-  TOGGLE_SIDEBAR: "TOGGLE_SIDEBAR",
+  OPEN_SIDEBAR: "OPEN_SIDEBAR",
+  CLOSE_SIDEBAR: "CLOSE_SIDEBAR",
   TOGGLE_MODAL: "TOGGLE_MODAL",
   CHANGE_MODAL_CONTENT: "CHANGE_MODAL_CONTENT"
 };
 
-export const toggleSidebar = () => {
+export const openSidebar = () => {
   return {
-    type: uiTypes.TOGGLE_SIDEBAR
+    type: uiTypes.OPEN_SIDEBAR
+  };
+};
+
+export const closeSidebar = () => {
+  return {
+    type: uiTypes.CLOSE_SIDEBAR
   };
 };
 

@@ -8,7 +8,7 @@ export interface RoutineTypes {
 
 export interface ReceiveRoutines {
   type: string;
-  routines: Routine[];
+  routines: Routine[] | [];
 }
 
 export interface AddRoutineAction {

@@ -1,7 +1,8 @@
 import { ModalContent } from "../State";
 
 export interface UiTypes {
-  TOGGLE_SIDEBAR: string;
+  OPEN_SIDEBAR: string;
+  CLOSE_SIDEBAR: string;
   TOGGLE_MODAL: string;
   CHANGE_MODAL_CONTENT: string;
 }

@@ -1,7 +1,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import Transition from "react-transition-group/Transition";
 
-import { toggleSidebar } from "../../state/UI/actions";
+import { openSidebar, closeSidebar } from "../../state/UI/actions";
 
 import DashboardSidebar from "../DashboardSidebar/DashboardSidebar";
 import DashboardMain from "../DashboardMain/DashboardMain";
@@ -17,23 +18,44 @@ type SideBar = boolean;
 interface P {
   sideBar: SideBar;
   modalIsActive: boolean;
-  toggleSidebar: (sideBar: SideBar) => void;
+  openSidebar: () => void;
+  closeSidebar: () => void;
 }
 
 class Dashboard extends React.Component<P, {}> {
-  public toggleSidebar = () => {
-    this.props.toggleSidebar(this.props.sideBar);
+  public openSidebar = () => {
+    this.props.openSidebar();
+  };
+  public closeSidebar = () => {
+    this.props.closeSidebar();
   };
 
   public render() {
     return (
       <Wrapper>
-        {this.props.sideBar ? (
-          <DashboardSidebar toggleSidebar={this.toggleSidebar} />
-        ) : null}
-        <DashBoardToolbar toggleSidebar={this.toggleSidebar} />
+        <Transition
+          in={this.props.sideBar}
+          mountOnEnter={true}
+          unmountOnExit={true}
+          timeout={300}
+        >
+          {state => (
+            <DashboardSidebar
+              animationState={state}
+              closeSidebar={this.closeSidebar}
+            />
+          )}
+        </Transition>
+        <DashBoardToolbar toggleSidebar={this.openSidebar} />
         <DashboardMain />
-        {this.props.modalIsActive ? <DashBoardModal /> : null}
+        <Transition
+          in={this.props.modalIsActive}
+          mountOnEnter={true}
+          unmountOnExit={true}
+          timeout={3000}
+        >
+          {state => <DashBoardModal animationState={state} />}
+        </Transition>
       </Wrapper>
     );
   }
@@ -48,8 +70,11 @@ const mapStateToProps = (state: State) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    toggleSidebar: () => {
-      dispatch(toggleSidebar());
+    openSidebar: () => {
+      dispatch(openSidebar());
+    },
+    closeSidebar: () => {
+      dispatch(closeSidebar());
     }
   };
 };
