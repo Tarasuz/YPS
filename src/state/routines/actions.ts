@@ -1,4 +1,4 @@
-import { Routine } from "../../models/routine/routine";
+import { Routine } from "../../models/state/State";
 
 import { ActionCreator } from "redux";
 import { ThunkAction } from "redux-thunk";

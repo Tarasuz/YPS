@@ -10,7 +10,7 @@ import {
   InvalidateAppoints,
   UnionAppointActions
 } from "../../models/state/appoints/actions";
-import { Appoint } from "../../models/routine/routine";
+import { Appoint } from "../../models/state/State";
 import { State } from "src/models/state/State";
 type AppointThunkAction<R> = ThunkAction<
   R,

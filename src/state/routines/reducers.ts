@@ -1,4 +1,4 @@
-import { Routine } from "../../models/routine/routine";
+import { Routine } from "../../models/state/State";
 import { routineTypes } from "./actions";
 import { IntersectionRoutineActions } from "../../models/state/routines/actions";
 

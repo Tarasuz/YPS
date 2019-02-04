@@ -1,4 +1,4 @@
-import { Appoint } from "../../models/routine/routine";
+import { Appoint } from "../../models/state/State";
 import { appointsTypes } from "./actions";
 import { IntersectionAppointActions } from "../../models/state/appoints/actions";
 

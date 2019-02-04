@@ -1,4 +1,4 @@
-import { Routine } from "../../routine/routine";
+import { Routine } from "../../state/State";
 
 export interface RoutineTypes {
   LOAD_ROUTINES: string;

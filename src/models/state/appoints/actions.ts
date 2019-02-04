@@ -1,4 +1,4 @@
-import { Appoint } from "../../routine/routine";
+import { Appoint } from "../../state/State";
 
 export interface ReceiveAppoints {
   type: string;
